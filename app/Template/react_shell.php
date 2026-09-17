@@ -30,8 +30,8 @@
         <?php endif ?>
     </head>
     <body>
-        <div id="root"></div>
-        <script>window.__KANBOARD__ = <?= json_encode($bootstrap, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT) ?>;</script>
+        <div id="root" data-base-url="<?= $this->url->dir() ?>"></div>
+        <script type="application/json" id="kanboard-bootstrap"><?= json_encode($bootstrap, JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT) ?></script>
         <?php if (REACT_DEV_SERVER === '' && $assets === null): ?>
             <div id="react-build-error">React bundle not built. Run <code>make react</code> (or <code>cd frontend &amp;&amp; npm install &amp;&amp; npm run build</code>).</div>
         <?php endif ?>

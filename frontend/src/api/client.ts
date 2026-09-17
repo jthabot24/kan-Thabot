@@ -86,9 +86,11 @@ export class ApiClient {
 }
 
 export async function loadBootstrap(baseUrl = '/'): Promise<Bootstrap> {
-  if (window.__KANBOARD__) return window.__KANBOARD__
+  const dataBlock = document.getElementById('kanboard-bootstrap')
+  if (dataBlock) return JSON.parse(dataBlock.textContent || '') as Bootstrap
 
-  const response = await fetch(`${baseUrl.replace(/\/?$/, '/')}api/session/bootstrap`, {
+  const rootBaseUrl = document.getElementById('root')?.dataset.baseUrl ?? baseUrl
+  const response = await fetch(`${rootBaseUrl.replace(/\/?$/, '/')}api/session/bootstrap`, {
     credentials: 'same-origin',
     headers: { 'X-Requested-With': 'XMLHttpRequest' },
   })
