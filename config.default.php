@@ -238,6 +238,13 @@ define('API_AUTHENTICATION_HEADER', '');
 // Enable/disable url rewrite
 define('ENABLE_URL_REWRITE', false);
 
+// Serve the React shell instead of the legacy PHP pages (requires ENABLE_URL_REWRITE)
+define('REACT_UI_ENABLED', false);
+
+// Feature areas served by React when REACT_UI_ENABLED is true (comma separated)
+// Available areas: dashboard, board, task, project, projects, settings, analytics
+define('REACT_UI_AREAS', 'dashboard,board,task,project,projects,settings,analytics');
+
 // Hide login form, useful if all your users use Google/Github/ReverseProxy authentication
 define('HIDE_LOGIN_FORM', false);
 

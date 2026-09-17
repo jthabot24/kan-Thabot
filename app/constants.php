@@ -133,6 +133,10 @@ defined('API_AUTHENTICATION_HEADER') or define('API_AUTHENTICATION_HEADER', gete
 // Enable/disable url rewrite
 defined('ENABLE_URL_REWRITE') or define('ENABLE_URL_REWRITE', getenv('ENABLE_URL_REWRITE') ?: isset($_SERVER['HTTP_MOD_REWRITE']));
 
+// React shell: serve the React UI instead of the legacy PHP controllers for the listed areas
+defined('REACT_UI_ENABLED') or define('REACT_UI_ENABLED', filter_var(getenv('REACT_UI_ENABLED') ?: false, FILTER_VALIDATE_BOOLEAN));
+defined('REACT_UI_AREAS') or define('REACT_UI_AREAS', getenv('REACT_UI_AREAS') ?: 'dashboard,board,task,project,projects,settings,analytics');
+
 // Hide login form
 defined('HIDE_LOGIN_FORM') or define('HIDE_LOGIN_FORM', strtolower(getenv('HIDE_LOGIN_FORM')) === 'true');
 

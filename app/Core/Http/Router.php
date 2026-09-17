@@ -94,11 +94,28 @@ class Router extends Base
     }
 
     /**
-     * Find controller/action from the route table or from get arguments
+     * Find controller/action from the route table or from get arguments,
+     * then let the React toggle decide whether the React shell takes over.
      *
      * @access public
      */
     public function dispatch()
+    {
+        $this->resolveRoute();
+
+        if ($this->reactRouteToggle->shouldServeReactShell($this->currentPluginName, $this->currentControllerName, $this->currentActionName)) {
+            $this->currentPluginName = '';
+            $this->currentControllerName = ReactRouteToggle::CONTROLLER;
+            $this->currentActionName = ReactRouteToggle::ACTION;
+        }
+    }
+
+    /**
+     * Resolve the legacy controller/action for the current request
+     *
+     * @access protected
+     */
+    protected function resolveRoute()
     {
         $controller = $this->request->getStringParam('controller');
         $action = $this->request->getStringParam('action');

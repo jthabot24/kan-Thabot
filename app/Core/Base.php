@@ -31,6 +31,7 @@ use Pimple\Container;
  * @property \Kanboard\Core\Http\Response                            $response
  * @property \Kanboard\Core\Http\Router                              $router
  * @property \Kanboard\Core\Http\Route                               $route
+ * @property \Kanboard\Core\Http\ReactRouteToggle                    $reactRouteToggle
  * @property \Kanboard\Core\Queue\QueueManager                       $queueManager
  * @property \Kanboard\Core\Mail\Client                              $emailClient
  * @property \Kanboard\Core\ObjectStorage\ObjectStorageInterface     $objectStorage

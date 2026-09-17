@@ -4,6 +4,7 @@ namespace Kanboard\ServiceProvider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Kanboard\Core\Http\ReactRouteToggle;
 use Kanboard\Core\Http\Route;
 use Kanboard\Core\Http\Router;
 
@@ -26,6 +27,7 @@ class RouteProvider implements ServiceProviderInterface
     {
         $container['router'] = new Router($container);
         $container['route'] = new Route($container);
+        $container['reactRouteToggle'] = new ReactRouteToggle($container);
 
         if (ENABLE_URL_REWRITE) {
             $container['route']->enable();
@@ -266,6 +268,11 @@ class RouteProvider implements ServiceProviderInterface
             // Doc
             $container['route']->addRoute('documentation/:file', 'DocumentationController', 'show');
             $container['route']->addRoute('documentation', 'DocumentationController', 'show');
+
+            // React shell (see ReactRouteToggle for the legacy routes it takes over)
+            $container['route']->addRoute('react', 'ReactAppController', 'show');
+            $container['route']->addRoute('react/session', 'ReactAppController', 'session');
+            $container['route']->addRoute('react/api', 'ReactAppController', 'api');
 
             // Auth routes
             $container['route']->addRoute('login', 'AuthController', 'login');

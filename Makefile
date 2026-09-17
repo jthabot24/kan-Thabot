@@ -3,7 +3,18 @@ DOCKER_TAG := main
 VERSION := $(shell git rev-parse --short HEAD)
 
 .PHONY: archive test-sqlite test-mysql test-postgres sql \
+	frontend frontend-dev frontend-check \
 	docker-image docker-images docker-run docker-sh
+
+# React shell (frontend/ -> assets/react/)
+frontend:
+	@ cd frontend && npm ci && npm run build
+
+frontend-dev:
+	@ cd frontend && npm run dev
+
+frontend-check:
+	@ cd frontend && npm run typecheck && npm run lint
 
 archive:
 	@ echo "Build archive: version=$(VERSION)"

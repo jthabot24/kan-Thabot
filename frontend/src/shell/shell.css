@@ -1,0 +1,26 @@
+/* Shell-only styles; legacy assets/css/*.min.css provides the rest */
+/* Legacy .dropdown-submenu-open styles the list; we only anchor it to the trigger */
+.react-dropdown { position: relative; display: inline-block; }
+.react-dropdown-list { right: 0; top: 100%; text-align: left; white-space: nowrap; }
+
+.react-board-selector { position: relative; }
+.react-board-selector input { width: 100%; max-width: 250px; }
+.react-board-selector-list {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 1000;
+  min-width: 250px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--dropdown-background-color, #fff);
+  border: 1px solid var(--dropdown-border-color, #b2b2b2);
+  border-top: 0;
+}
+.react-board-selector-list li a { display: block; padding: 6px 10px; text-decoration: none; }
+.react-board-selector-list li a:hover { background: var(--dropdown-hover-background-color, #f5f5f5); }
+
+.react-placeholder { padding: 40px 20px; text-align: center; color: #888; }
+.react-placeholder code { color: #555; }
+.react-loading { padding: 40px; text-align: center; color: #888; }
