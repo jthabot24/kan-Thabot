@@ -1,0 +1,16 @@
+.color-yellow { background-color: rgb(245, 247, 196); border-color: rgb(223, 227, 45); }
+.color-blue { background-color: rgb(219, 235, 255); border-color: rgb(168, 207, 255); }
+.color-green { background-color: rgb(189, 244, 203); border-color: rgb(74, 227, 113); }
+.color-purple { background-color: rgb(223, 176, 255); border-color: rgb(205, 133, 254); }
+.color-red { background-color: rgb(255, 187, 187); border-color: rgb(255, 151, 151); }
+.color-orange { background-color: rgb(255, 215, 179); border-color: rgb(255, 172, 98); }
+.color-grey { background-color: rgb(238, 238, 238); border-color: rgb(204, 204, 204); }
+.color-brown { background-color: #d7ccc8; border-color: #4e342e; }
+.color-deep_orange { background-color: #ffab91; border-color: #e64a19; }
+.color-dark_grey { background-color: #cfd8dc; border-color: #455a64; }
+.color-pink { background-color: #f48fb1; border-color: #d81b60; }
+.color-teal { background-color: #80cbc4; border-color: #00695c; }
+.color-cyan { background-color: #b2ebf2; border-color: #00bcd4; }
+.color-lime { background-color: #e6ee9c; border-color: #afb42b; }
+.color-light_green { background-color: #dcedc8; border-color: #689f38; }
+.color-amber { background-color: #ffe082; border-color: #ffa000; }
