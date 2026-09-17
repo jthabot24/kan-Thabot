@@ -272,6 +272,10 @@ class RouteProvider implements ServiceProviderInterface
             $container['route']->addRoute('login/check', 'AuthController', 'check');
             $container['route']->addRoute('logout', 'AuthController', 'logout');
 
+            // React shell
+            $container['route']->addRoute('api/session/bootstrap', 'ApiSessionController', 'bootstrap');
+            $container['route']->addRoute('api/session/rpc', 'ApiSessionController', 'execute');
+
             // PasswordReset
             $container['route']->addRoute('forgot-password', 'PasswordResetController', 'create');
             $container['route']->addRoute('forgot-password/change/:token', 'PasswordResetController', 'change');

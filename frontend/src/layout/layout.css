@@ -1,0 +1,95 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 3.25rem;
+  padding: 0.35rem 0.75rem;
+  border-bottom: 1px solid #ddd;
+  background: #fafafa;
+}
+
+.title-container {
+  flex: 0 0 auto;
+}
+
+.board-selector-container {
+  flex: 1 1 auto;
+}
+
+.menus-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.header-title strong {
+  font-size: 1.25rem;
+  letter-spacing: -0.1em;
+}
+
+.header-title strong span {
+  color: #e66b2d;
+}
+
+.board-selector-container select {
+  width: min(100%, 18rem);
+  padding: 0.35rem;
+}
+
+.menu summary {
+  cursor: pointer;
+}
+
+.menu nav {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  gap: 0.35rem;
+  min-width: 10rem;
+  padding: 0.65rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px #0002;
+}
+
+.menu nav a {
+  text-decoration: none;
+}
+
+.page {
+  padding: 1rem;
+}
+
+.flash {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.6rem 0.8rem;
+}
+
+.flash.success {
+  background: #e8f5e9;
+}
+
+.flash.failure {
+  background: #ffebee;
+}
+
+.flash button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.notification-link {
+  font-size: 1.25rem;
+  text-decoration: none;
+}

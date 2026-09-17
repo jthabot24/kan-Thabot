@@ -2,8 +2,11 @@ DOCKER_IMAGE := docker.io/kanboard/kanboard
 DOCKER_TAG := main
 VERSION := $(shell git rev-parse --short HEAD)
 
-.PHONY: archive test-sqlite test-mysql test-postgres sql \
+.PHONY: archive test-sqlite test-mysql test-postgres sql react \
 	docker-image docker-images docker-run docker-sh
+
+react:
+	@ cd frontend && npm install && npm run build
 
 archive:
 	@ echo "Build archive: version=$(VERSION)"

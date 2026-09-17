@@ -54,6 +54,14 @@ class ApiProvider implements ServiceProviderInterface
             ->withMiddleware(new AuthenticationMiddleware($container))
         ;
 
+        self::registerProcedures($server, $container);
+
+        $container['api'] = $server;
+        return $container;
+    }
+
+    public static function registerProcedures(Server $server, Container $container)
+    {
         $server->getProcedureHandler()
             ->withObject(new MeProcedure($container))
             ->withObject(new ActionProcedure($container))
@@ -82,8 +90,5 @@ class ApiProvider implements ServiceProviderInterface
             ->withObject(new TagProcedure($container))
             ->withBeforeMethod('beforeProcedure')
         ;
-
-        $container['api'] = $server;
-        return $container;
     }
 }
