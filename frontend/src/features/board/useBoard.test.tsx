@@ -49,4 +49,13 @@ describe("useBoard", () => {
     await act(async () => { await result.current.moveTask({ taskId: 7, srcColumnId: 2, dstColumnId: 2, dstSwimlaneId: 1, position: 1 }); });
     expect(result.current.error).toBe("save failed");
   });
+  it("reverts and reports a false move response", async () => {
+    vi.mocked(moveTaskPosition).mockResolvedValue(false);
+    const { result } = renderHook(() => useBoard(1, { pollInterval: 60 }));
+    await act(async () => { await Promise.resolve(); await Promise.resolve(); });
+    expect(result.current.swimlanes).toHaveLength(1);
+    await act(async () => { await result.current.moveTask({ taskId: 7, srcColumnId: 2, dstColumnId: 3, dstSwimlaneId: 1, position: 1 }); });
+    expect(result.current.error).toBe("Unable to move the task");
+    expect(result.current.swimlanes[0].columns[0].tasks[0].id).toBe(7);
+  });
 });

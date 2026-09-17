@@ -35,4 +35,15 @@ describe("Board", () => {
     await screen.findByText("First task");
     expect(screen.queryByText("Doing")).not.toBeInTheDocument();
   });
+  it("keeps a collapsed swimlane header and first column headers", async () => {
+    render(<Board projectId={1} pollInterval={60} />);
+    await screen.findByText("First task");
+    fireEvent.click(screen.getAllByRole("button", { name: "Collapse swimlane" })[0]);
+    expect(screen.getAllByRole("button", { name: "Expand swimlane" })).toHaveLength(1);
+    expect(screen.queryByText("First task")).not.toBeInTheDocument();
+    expect(screen.getByText("Second task")).toBeInTheDocument();
+    expect(document.querySelector(".board-swimlane-columns-1")).toBeInTheDocument();
+    fireEvent.click(screen.getAllByRole("button", { name: "Collapse swimlane" })[0]);
+    expect(document.querySelector(".board-swimlane-columns-2")).not.toBeInTheDocument();
+  });
 });

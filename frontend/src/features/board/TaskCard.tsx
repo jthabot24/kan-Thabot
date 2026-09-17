@@ -6,6 +6,7 @@ interface TaskCardProps {
   collapsed: boolean;
   highlightPeriod: number;
   saving: boolean;
+  dragging: boolean;
   onDragStart: (event: React.DragEvent<HTMLDivElement>) => void;
   onDragEnd: () => void;
 }
@@ -15,7 +16,7 @@ function initials(task: BoardTask): string {
   return name.split(/\s+/).filter(Boolean).map((part) => part[0]).join("").slice(0, 2).toUpperCase();
 }
 
-export function TaskCard({ task, collapsed, highlightPeriod, saving, onDragStart, onDragEnd }: TaskCardProps) {
+export function TaskCard({ task, collapsed, highlightPeriod, saving, dragging, onDragStart, onDragEnd }: TaskCardProps) {
   const now = Date.now();
   const active = toInt(task.is_active) === 1;
   const recent = toInt(task.date_modification) * 1000 > now - highlightPeriod * 1000;
@@ -24,7 +25,7 @@ export function TaskCard({ task, collapsed, highlightPeriod, saving, onDragStart
   const due = toInt(task.date_due);
   return (
     <div
-      className={`task-board ${task.is_draggable ? "draggable-item " : ""}${active ? "task-board-status-open " : "task-board-status-closed "}${recent ? "task-board-recent " : ""}color-${toInt(task.color_id)}${saving ? " task-board-saving-state" : ""}`}
+      className={`task-board ${task.is_draggable ? "draggable-item " : ""}${dragging ? "draggable-item-selected " : ""}${active ? "task-board-status-open " : "task-board-status-closed "}${recent ? "task-board-recent " : ""}color-${toInt(task.color_id)}${saving ? " task-board-saving-state" : ""}`}
       draggable={Boolean(task.is_draggable)}
       data-task-id={task.id}
       data-column-id={task.column_id}

@@ -11,6 +11,7 @@ interface TaskRowProps {
   collapsedCards: boolean;
   highlightPeriod: number;
   savingTaskId: number | null;
+  draggingTaskId: number | null;
   onMove: (move: MoveTaskInput) => void;
   onDragState: (taskId: number | null) => void;
   onToggleColumn: (columnId: number) => void;
@@ -40,14 +41,16 @@ function DropZone({ column, swimlane, props }: { column: BoardColumn; swimlane: 
     <div
       className={`board-task-list board-column-expanded${props.compactVertical ? " board-task-list-compact" : ""}${over ? " board-drop-active" : ""}`}
       onDragOver={(event) => { event.preventDefault(); setOver(true); }}
-      onDragLeave={() => setOver(false)}
+      onDragLeave={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOver(false);
+      }}
       onDrop={handleDrop}
     >
       {column.tasks.map((task) => (
         <TaskCard key={String(task.id)} task={task} collapsed={props.collapsedCards} highlightPeriod={props.highlightPeriod}
           saving={props.savingTaskId === toInt(task.id)}
+          dragging={props.draggingTaskId === toInt(task.id)}
           onDragStart={(event) => {
-            event.currentTarget.classList.add("draggable-item-selected");
             event.dataTransfer.setData("application/json", JSON.stringify({ taskId: toInt(task.id), srcColumnId: toInt(column.id), srcSwimlaneId: toInt(swimlane.id), position: toInt(task.position) }));
             props.onDragState(toInt(task.id));
           }}

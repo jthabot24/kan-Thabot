@@ -13,6 +13,7 @@ export function useBoard(projectId: number, { pollInterval }: UseBoardOptions) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const savingRef = useRef(false);
   const lastServer = useRef<BoardSwimlane[]>([]);
   const serialized = useRef("");
   const mounted = useRef(true);
@@ -21,12 +22,12 @@ export function useBoard(projectId: number, { pollInterval }: UseBoardOptions) {
     mounted.current = false;
   }, []);
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (force = false) => {
     setLoading((value) => value && serialized.current === "");
     try {
       const result = await getBoard(projectId);
       const nextSerialized = JSON.stringify(result);
-      if (nextSerialized !== serialized.current && mounted.current) {
+      if ((force || nextSerialized !== serialized.current) && mounted.current) {
         serialized.current = nextSerialized;
         lastServer.current = result;
         setSwimlanes(result);
@@ -45,10 +46,10 @@ export function useBoard(projectId: number, { pollInterval }: UseBoardOptions) {
     setSwimlanes([]);
     void refresh();
     const interval = window.setInterval(() => {
-      if (document.visibilityState === "visible" && !saving) void refresh();
+      if (document.visibilityState === "visible" && !savingRef.current) void refresh();
     }, pollInterval * 1000);
     return () => window.clearInterval(interval);
-  }, [pollInterval, projectId, refresh, saving]);
+  }, [pollInterval, projectId, refresh]);
 
   const moveTask = useCallback(async (input: MoveTaskInput) => {
     const previous = swimlanes;
@@ -68,21 +69,24 @@ export function useBoard(projectId: number, { pollInterval }: UseBoardOptions) {
     moved.swimlane_id = input.dstSwimlaneId;
     destination.tasks.splice(Math.max(0, input.position - 1), 0, moved);
     setSwimlanes(next);
+    savingRef.current = true;
     setSaving(true);
     setError(null);
     try {
-      await moveTaskPosition(
+      const result = await moveTaskPosition(
         projectId,
         input.taskId,
         input.dstColumnId,
         input.position,
         input.dstSwimlaneId,
       );
-      await refresh();
+      if (!result) throw new Error("Unable to move the task");
+      await refresh(true);
     } catch (cause) {
       setSwimlanes(lastServer.current.length ? lastServer.current : previous);
       setError(cause instanceof Error ? cause.message : String(cause));
     } finally {
+      savingRef.current = false;
       setSaving(false);
     }
   }, [projectId, refresh, swimlanes]);

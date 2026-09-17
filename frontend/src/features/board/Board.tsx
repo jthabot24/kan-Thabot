@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useBoard } from "./useBoard";
 import { BoardToolbar } from "./BoardToolbar";
 import { ColumnHeaderRow } from "./ColumnHeaderRow";
@@ -7,7 +7,7 @@ import { TaskRow } from "./TaskRow";
 import {
   getHiddenSwimlanes, isBoardCollapsed, isCompactHorizontal, isCompactVertical,
   isColumnHidden, resetSingleSwimlane, setBoardCollapsed, setCompactHorizontal,
-  setCompactVertical, toggleHiddenSwimlane,
+  setColumnHidden, setCompactVertical, toggleHiddenSwimlane,
 } from "./preferences";
 import { toInt } from "./utils";
 import type { MoveTaskInput } from "./types";
@@ -27,19 +27,18 @@ export function Board({ projectId, pollInterval, highlightPeriod = 172800 }: Boa
   const [hiddenColumns, setHiddenColumns] = useState<Set<number>>(() => new Set());
   const [hiddenSwimlanes, setHiddenSwimlanesState] = useState<number[]>(() => getHiddenSwimlanes(projectId));
   const [savingTaskId, setSavingTaskId] = useState<number | null>(null);
+  const [draggingTaskId, setDraggingTaskId] = useState<number | null>(null);
   useEffect(() => {
     setHiddenColumns(new Set(swimlanes.flatMap((lane) => lane.columns.map((column) => toInt(column.id)).filter(isColumnHidden))));
     setHiddenSwimlanesState(getHiddenSwimlanes(projectId));
     resetSingleSwimlane(projectId, swimlanes.length);
   }, [projectId, swimlanes]);
-  const visible = useMemo(() => swimlanes.filter((lane) => !hiddenSwimlanes.includes(toInt(lane.id))), [hiddenSwimlanes, swimlanes]);
   const toggleColumn = (id: number) => {
     const next = new Set(hiddenColumns);
     const hide = !next.has(id);
     if (hide) next.add(id); else next.delete(id);
     setHiddenColumns(next);
-    localStorage.setItem(`hidden_column_${id}`, hide ? "1" : "");
-    if (!hide) localStorage.removeItem(`hidden_column_${id}`);
+    setColumnHidden(id, hide);
   };
   const toggleSwimlane = (id: number) => {
     const next = toggleHiddenSwimlane(projectId, id);
@@ -64,14 +63,14 @@ export function Board({ projectId, pollInterval, highlightPeriod = 172800 }: Boa
         <div id="board-container" className={compactHorizontal ? "board-container-compact" : ""}>
           <table id="board">
             <tbody>
-              {visible.map((swimlane) => {
+              {swimlanes.map((swimlane, index) => {
                 const id = toInt(swimlane.id);
                 const hidden = hiddenSwimlanes.includes(id);
                 return (
                   <Fragment key={id}>
                     {swimlanes.length > 1 && <SwimlaneRow swimlane={swimlane} hidden={hidden} onToggle={() => toggleSwimlane(id)} />}
-                    {!hidden && <ColumnHeaderRow swimlane={swimlane} hiddenColumns={hiddenColumns} compact={compactHorizontal} onToggleColumn={toggleColumn} />}
-                    {!hidden && <TaskRow swimlane={swimlane} hiddenColumns={hiddenColumns} compactVertical={compactVertical} collapsedCards={collapsedCards} highlightPeriod={highlightPeriod} savingTaskId={saving ? savingTaskId : null} onMove={(input) => void move(input)} onDragState={setSavingTaskId} onToggleColumn={toggleColumn} />}
+                    {(!hidden || index === 0) && <ColumnHeaderRow swimlane={swimlane} hiddenColumns={hiddenColumns} compact={compactHorizontal} onToggleColumn={toggleColumn} />}
+                    {!hidden && <TaskRow swimlane={swimlane} hiddenColumns={hiddenColumns} compactVertical={compactVertical} collapsedCards={collapsedCards} highlightPeriod={highlightPeriod} savingTaskId={saving ? savingTaskId : null} draggingTaskId={draggingTaskId} onMove={(input) => void move(input)} onDragState={setDraggingTaskId} onToggleColumn={toggleColumn} />}
                   </Fragment>
                 );
               })}
