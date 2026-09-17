@@ -85,10 +85,10 @@ export class ApiClient {
   }
 }
 
-export async function loadBootstrap(): Promise<Bootstrap> {
+export async function loadBootstrap(baseUrl = '/'): Promise<Bootstrap> {
   if (window.__KANBOARD__) return window.__KANBOARD__
 
-  const response = await fetch('/api/session/bootstrap', {
+  const response = await fetch(`${baseUrl.replace(/\/?$/, '/')}api/session/bootstrap`, {
     credentials: 'same-origin',
     headers: { 'X-Requested-With': 'XMLHttpRequest' },
   })

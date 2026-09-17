@@ -84,17 +84,28 @@ export interface Project {
 export type ProjectListItem = Record<string, string>
 
 export interface User {
-  id: number
+  id: string
   username: string
   name: string
   email: string
   role: string
-  is_ldap_user?: boolean
-  twofactor_activated?: boolean
+  is_ldap_user: string
+  twofactor_activated: string
   [key: string]: unknown
 }
 
-export type Me = User
+export interface SessionUser {
+  id: number
+  username: string
+  name: string | null
+  email: string | null
+  role: string
+  is_ldap_user: boolean
+  twofactor_activated: boolean
+  [key: string]: unknown
+}
+
+export type Me = SessionUser
 
 export interface Column {
   id: string
@@ -125,7 +136,7 @@ export interface Category {
 }
 
 export interface Bootstrap {
-  user: User
+  user: SessionUser
   csrf_token: string
   base_url: string
   app: {
