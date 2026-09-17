@@ -235,6 +235,12 @@ define('MARKDOWN_ESCAPE_HTML', true);
 // API alternative authentication header, the default is HTTP Basic Authentication defined in RFC2617
 define('API_AUTHENTICATION_HEADER', '');
 
+// React development server URL
+define('REACT_DEV_SERVER', '');
+
+// React shell areas, comma-separated names or all
+define('REACT_SHELL_AREAS', '');
+
 // Enable/disable url rewrite
 define('ENABLE_URL_REWRITE', false);
 

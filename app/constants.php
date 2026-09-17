@@ -129,6 +129,8 @@ defined('MARKDOWN_ESCAPE_HTML') or define('MARKDOWN_ESCAPE_HTML', getenv('MARKDO
 
 // API alternative authentication header, the default is HTTP Basic Authentication defined in RFC2617
 defined('API_AUTHENTICATION_HEADER') or define('API_AUTHENTICATION_HEADER', getenv('API_AUTHENTICATION_HEADER') ?: '');
+defined('REACT_DEV_SERVER') or define('REACT_DEV_SERVER', getenv('REACT_DEV_SERVER') ?: '');
+defined('REACT_SHELL_AREAS') or define('REACT_SHELL_AREAS', getenv('REACT_SHELL_AREAS') ?: '');
 
 // Enable/disable url rewrite
 defined('ENABLE_URL_REWRITE') or define('ENABLE_URL_REWRITE', getenv('ENABLE_URL_REWRITE') ?: isset($_SERVER['HTTP_MOD_REWRITE']));

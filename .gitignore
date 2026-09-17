@@ -25,6 +25,8 @@ data/config.php
 /config.php
 !docker/var/wwww/app/config.php
 node_modules
+frontend/node_modules
+/assets/react/
 .phpunit.result.cache
 app/version.txt
 .php-cs-fixer.cache
