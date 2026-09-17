@@ -54,6 +54,24 @@ class ApiProvider implements ServiceProviderInterface
             ->withMiddleware(new AuthenticationMiddleware($container))
         ;
 
+        self::registerProcedures($server, $container);
+
+        $container['api'] = $server;
+        return $container;
+    }
+
+    /**
+     * Attach every API procedure to a JSON-RPC server
+     *
+     * Shared by the HTTP Basic API (jsonrpc.php) and the session-authenticated
+     * API used by the React shell (ReactAppController::api).
+     *
+     * @param Server    $server
+     * @param Container $container
+     * @return Server
+     */
+    public static function registerProcedures(Server $server, Container $container)
+    {
         $server->getProcedureHandler()
             ->withObject(new MeProcedure($container))
             ->withObject(new ActionProcedure($container))
@@ -83,7 +101,6 @@ class ApiProvider implements ServiceProviderInterface
             ->withBeforeMethod('beforeProcedure')
         ;
 
-        $container['api'] = $server;
-        return $container;
+        return $server;
     }
 }

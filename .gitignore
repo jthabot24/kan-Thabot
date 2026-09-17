@@ -28,3 +28,8 @@ node_modules
 .phpunit.result.cache
 app/version.txt
 .php-cs-fixer.cache
+# React shell build artifacts (app.js/app.css are committed like the other minified assets)
+assets/react/*.map
+frontend/node_modules
+frontend/dist
+frontend/*.tsbuildinfo
